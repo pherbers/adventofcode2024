@@ -16,3 +16,9 @@ Part 1 was pretty straight forward. For part 2 I thought I could find a DAG with
 
 ## Day 06
 I don't care what comes after this, this is my visual magnum opus for this year. Fully simulated in pygame, even for part 2. It takes hours to run, but it's a nice screen saver!
+
+Edit: It took hours for the simulation to run through. And then I accidentally cancelled it at around 200 Simulations left because I wanted to work on day 7... 
+
+## Day 07
+Part 1 was ez with a bit of binary juggling, but of course part 2 has three operands.
+Switching to ternary thanks to numpys base_repr function made it possible, but the combinatorics make this surprisingly resource heavy. Early stopping helps out tho.
