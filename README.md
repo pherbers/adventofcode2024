@@ -19,6 +19,8 @@ I don't care what comes after this, this is my visual magnum opus for this year.
 
 Edit: It took hours for the simulation to run through. And then I accidentally cancelled it at around 200 Simulations left because I wanted to work on day 7... 
 
+Edit Edit: FINALLY got all the bugs fixed, after two days... Also a speedup, it now takes 5 minutes in pygame.
+
 ## Day 07
 Part 1 was ez with a bit of binary juggling, but of course part 2 has three operands.
 Switching to ternary thanks to numpys base_repr function made it possible, but the combinatorics make this surprisingly resource heavy. Early stopping helps out tho.
