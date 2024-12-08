@@ -23,4 +23,7 @@ Edit Edit: FINALLY got all the bugs fixed, after two days... Also a speedup, it 
 
 ## Day 07
 Part 1 was ez with a bit of binary juggling, but of course part 2 has three operands.
-Switching to ternary thanks to numpys base_repr function made it possible, but the combinatorics make this surprisingly resource heavy. Early stopping helps out tho.
+Switching to ternary thanks to numpys `base_repr` function made it possible, but the combinatorics make this surprisingly resource heavy. Early stopping helps out tho.
+
+## Day 08
+`np.where` saves the day again. `np.where` would I be today without that function.
