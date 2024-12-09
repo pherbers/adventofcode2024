@@ -27,3 +27,6 @@ Switching to ternary thanks to numpys `base_repr` function made it possible, but
 
 ## Day 08
 `np.where` saves the day again. `np.where` would I be today without that function.
+
+## Day 09
+Now entering: Edge Case City, `population <= len(me)`. Code so slow I have to use `tqdm`. Sums so large I need to `int64`. What has it come to?
