@@ -53,7 +53,8 @@ def inbounds(pos, shape):
     return pos[0] >= 0 and pos[1] >= 0 and pos[0] < shape[0] and pos[1] < shape[1]
 
 
-adjacency = list([np.array(a) for a in [(-1,0), (0,-1), (0,1), (1, 0)]])
+adjacency = list([np.array(a) for a in [(-1, 0), (0, -1), (0, 1), (1, 0)]])
+
 
 # DFS function
 def dfs(karte, start):
@@ -82,6 +83,7 @@ def dfs(karte, start):
         # Hike down the mountain to whence you came
         yield hike_path(peak_start, path_map)
 
+
 def hike_path(peak_start, path):
     hiker = peak_start.copy()
     yield hiker.copy()
@@ -89,6 +91,7 @@ def hike_path(peak_start, path):
         direction = adjacency[path[*hiker]]
         hiker -= direction
         yield hiker.copy()
+
 
 # pygame setup
 pygame.init()
@@ -110,8 +113,10 @@ for (x, y), val in np.ndenumerate(karte):
 path_surf = pygame.Surface(screen_size)
 path_surf.set_colorkey(Color("Black"))
 
-border_color = Color((16,16,16))
-def draw_line(surf, p1, p2, color=Color("red"), offset=np.array((0,0))):
+border_color = Color((16, 16, 16))
+
+
+def draw_line(surf, p1, p2, color=Color("red"), offset=np.array((0, 0))):
     c1 = p1 * game_scale + game_scale / 2 + offset
     c2 = p2 * game_scale + game_scale / 2 + offset
     pygame.draw.line(surf, border_color, c1, c2, width=3)
@@ -119,30 +124,30 @@ def draw_line(surf, p1, p2, color=Color("red"), offset=np.array((0,0))):
     pygame.draw.circle(surf, border_color, c1, 1)
     pygame.draw.circle(surf, border_color, c2, 1)
 
+
 # Find and draw hiking paths
-starting_points = np.where(karte == 0)
+def find_hiking_paths():
+    starting_points = np.where(karte == 0)
+
+    for start in zip(*starting_points):
+        print(f"Searching for paths from {start}")
+        # DFS Search
+        dfs_it = dfs(karte, start)
+
+        yield dfs_it
+
+
 c = 0
-col_index = 0
 
+hiking_paths = find_hiking_paths()
+
+update_event = pygame.USEREVENT + 1
+pygame.time.set_timer(update_event, 100)
+
+# Draw counters
 # offsets for better visibility
-offset_grid_x, offset_grid_y = np.meshgrid(np.linspace(-4,4,4),np.linspace(-4,4,4))
-for start in zip(*starting_points):
-    print(f"Searching for paths from {start}")
-    # DFS Search
-    dfs_it = dfs(karte, start)
-
-    path_color = path_colormap[col_index]
-    col_index += 1
-    col_index %= len(path_colormap)
-    offset = np.array([offset_grid_x.flat[col_index], offset_grid_y.flat[col_index]])
-
-    for path in dfs_it:
-        c += 1
-        # Draw path
-        for prev, node in pairwise(path):
-            draw_line(path_surf, prev, node, path_color, offset=offset)
-
-print(f"Number of possible hikes: {c}")
+offset_grid_x, offset_grid_y = np.meshgrid(np.linspace(-6, 4, 6), np.linspace(-6, 4, 6))
+col_index = 0
 
 while running:
     # poll for events
@@ -150,6 +155,24 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == update_event:
+            try:
+                hiking_path = next(hiking_paths)
+            except StopIteration:
+                print(f"Number of possible hikes: {c}")
+                pygame.time.set_timer(update_event, 0)
+                continue
+            for path in hiking_path:
+                c += 1
+                # Draw path
+                path_color = path_colormap[col_index]
+                col_index += 1
+                col_index %= len(path_colormap)
+                offset = np.array(
+                    [offset_grid_x.flat[col_index], offset_grid_y.flat[col_index]]
+                )
+                for prev, node in pairwise(path):
+                    draw_line(path_surf, prev, node, path_color, offset=offset)
 
     # Render
     pygame.transform.scale_by(karte_surf, game_scale, karte_scale)
