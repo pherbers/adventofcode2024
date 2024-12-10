@@ -84,6 +84,25 @@ def dfs(karte, start):
         yield hike_path(peak_start, path_map)
 
 
+# DFS function, but all possible paths are returned
+def dfs_full(karte, start):
+    open_set = [np.array(start)]
+    count = 0
+
+    while len(open_set) > 0:
+        node = open_set.pop()
+        height = karte[*node]
+        for direction, adjacent in enumerate(adjacency):
+            p = node + adjacent
+            if not inbounds(p, karte.shape):
+                continue
+            if karte[*p] == height + 1:
+                open_set.append(p)
+                if karte[*p] == 9:
+                    count += 1
+    return count
+
+
 def hike_path(peak_start, path):
     hiker = peak_start.copy()
     yield hiker.copy()
@@ -137,16 +156,28 @@ def find_hiking_paths():
         yield dfs_it
 
 
+def find_all_hiking_paths():
+    starting_points = np.where(karte == 0)
+    count = 0
+    for start in zip(*starting_points):
+        print(f"Searching for paths from {start}")
+        # DFS Search
+        count += dfs_full(karte, start)
+    return count
+
+
 c = 0
+c2 = 0
 
 hiking_paths = find_hiking_paths()
 
 update_event = pygame.USEREVENT + 1
-pygame.time.set_timer(update_event, 100)
+finish_p1_event = pygame.USEREVENT + 2
+pygame.time.set_timer(update_event, 50)
 
 # Draw counters
 # offsets for better visibility
-offset_grid_x, offset_grid_y = np.meshgrid(np.linspace(-6, 4, 6), np.linspace(-6, 4, 6))
+offset_grid_x, offset_grid_y = np.meshgrid(np.linspace(-6, 6, 4), np.linspace(-6, 6, 4))
 col_index = 0
 
 while running:
@@ -159,8 +190,8 @@ while running:
             try:
                 hiking_path = next(hiking_paths)
             except StopIteration:
-                print(f"Number of possible hikes: {c}")
                 pygame.time.set_timer(update_event, 0)
+                pygame.event.post(pygame.event.Event(finish_p1_event))
                 continue
             for path in hiking_path:
                 c += 1
@@ -173,6 +204,11 @@ while running:
                 )
                 for prev, node in pairwise(path):
                     draw_line(path_surf, prev, node, path_color, offset=offset)
+        if event.type == finish_p1_event:
+            print(f"Number of possible hikes: {c}")
+            print(f"Calculating all possible hikes ever...")
+            c = find_all_hiking_paths()
+            print(f"Number of all possible hikes: {c}")
 
     # Render
     pygame.transform.scale_by(karte_surf, game_scale, karte_scale)

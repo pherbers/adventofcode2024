@@ -30,3 +30,6 @@ Switching to ternary thanks to numpys `base_repr` function made it possible, but
 
 ## Day 09
 Now entering: Edge Case City, `population <= len(me)`. Code so slow I have to use `tqdm`. Sums so large I need to `int64`. What has it come to?
+
+## Day 10
+Quick and Dirty Depth First Search! Because it is fun I made the DFS results an Iterable for visualizing. Should also keep memory efficiency through that.
