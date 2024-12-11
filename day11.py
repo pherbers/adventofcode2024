@@ -1,25 +1,29 @@
 import numpy as np
-
+from tqdm import tqdm
+from collections import defaultdict
 
 with open(__file__.replace(".py", ".txt")) as f:
     input_text: str = f.read()
 
-stones = input_text.split()
+stone_list = [int(i) for i in input_text.split()]
+
+field = defaultdict(int)
+
+for stone in stone_list:
+    field[stone] += 1
 
 iterations = 75
 
-for i in range(iterations):
-    newstones = []
-    for stone in stones:
-        istone = int(stone)
-        if istone == 0:
-            newstones.append("1")
-        elif len(stone) % 2 == 0:
-            stone1 = int(stone[: len(stone) // 2])
-            stone2 = int(stone[len(stone) // 2 :])
-            newstones.append(str(stone1))
-            newstones.append(str(stone2))
+for it in range(iterations):
+    newfield = defaultdict(int)
+    for stone, nstones in tqdm(field.items()):
+        if stone == 0:
+            newfield[1] += nstones
+        elif (sl := (len(s := str(stone)))) % 2 == 0:
+            newfield[int(s[: sl // 2])] += nstones
+            newfield[int(s[sl // 2 :])] += nstones
         else:
-            newstones.append(str(istone * 2024))
-    stones = newstones
-    print(f"Iteration {i+1:02d}, {len(stones):8d}")
+            newfield[stone * 2024] += nstones
+    field = newfield
+    print(f"Iteration {it+1:02d}, {sum(field.values()):16d} stones")
+    # print(field)

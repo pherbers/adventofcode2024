@@ -33,3 +33,6 @@ Now entering: Edge Case City, `population <= len(me)`. Code so slow I have to us
 
 ## Day 10
 Quick and Dirty Depth First Search! Because it is fun I made the DFS results an Iterable for visualizing. Should also keep memory efficiency through that.
+
+## Day 11
+Part 2 went from "oh no my RAM is in paging hell after 45 iterations" to "400ms execution time" by switching from a list to a dictionary (since the order of the stones is irrelevant, thanks reddit)
