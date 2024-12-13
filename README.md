@@ -36,3 +36,6 @@ Quick and Dirty Depth First Search! Because it is fun I made the DFS results an 
 
 ## Day 11
 Part 2 went from "oh no my RAM is in paging hell after 45 iterations" to "400ms execution time" by switching from a list to a dictionary (since the order of the stones is irrelevant, thanks reddit)
+
+## Day 12
+Fun task this time. For part 2 I initially wanted to do marching cubes, but the holes inside of plots would not have worked with what I tried. I came up with a weird way of doing a sweeping convolution with boolean material implication and diffs and sums. I'm not writing it down how it works (my mind is an enigma).
