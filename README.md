@@ -45,3 +45,6 @@ Part 1 was easy to brute force, but I had to give up on Part 2 because even my m
 
 # Day 14
 Finally, using pygame is paying off! I do these visualizations more for myself, but this made Part 2 pretty straight forward.
+
+# Day 15
+I should make a proper pygame engine for this. Didn't think I would use my setup so often. Worked perfectly for the box pushing. Just needed a DFS again for part 2.
