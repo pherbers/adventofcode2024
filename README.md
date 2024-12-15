@@ -39,3 +39,9 @@ Part 2 went from "oh no my RAM is in paging hell after 45 iterations" to "400ms 
 
 ## Day 12
 Fun task this time. For part 2 I initially wanted to do marching cubes, but the holes inside of plots would not have worked with what I tried. I came up with a weird way of doing a sweeping convolution with boolean material implication and diffs and sums. I'm not writing it down how it works (my mind is an enigma).
+
+# Day 13
+Part 1 was easy to brute force, but I had to give up on Part 2 because even my more efficient search did not work. There has to be a closed form solution, I'm pretty sure, that can give you all possible combinations... Maybe some other time.
+
+# Day 14
+Finally, using pygame is paying off! I do these visualizations more for myself, but this made Part 2 pretty straight forward.
