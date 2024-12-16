@@ -48,3 +48,6 @@ Finally, using pygame is paying off! I do these visualizations more for myself, 
 
 # Day 15
 I should make a proper pygame engine for this. Didn't think I would use my setup so often. Worked perfectly for the box pushing. Just needed a DFS again for part 2.
+
+# Day 16
+A Dijkstra AND a DFS?! Is this a crossover episode? No pygame this time, just matplotlib.
