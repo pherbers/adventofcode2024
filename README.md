@@ -51,3 +51,11 @@ I should make a proper pygame engine for this. Didn't think I would use my setup
 
 # Day 16
 A Dijkstra AND a DFS?! Is this a crossover episode? No pygame this time, just matplotlib.
+
+# Day 17
+Flashbacks to 2020, but part 1 was pretty straight forward. Had to give up on Part 2, I even rewrote my code in cpp, with no result. I'm guessing the result is so large that brute force is not an option, so I have to figure out what the prgram is doing and if there is a shortcut. But not today...
+
+# Day 18
+This was easy, too easy... Even Part 2 was brute-forcable? I was able to reuse my reindeer Dijkstra for this, so this took not even 20 minutes. Good to have a day off I guess.
+
+
