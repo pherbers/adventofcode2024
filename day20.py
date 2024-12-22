@@ -1,5 +1,5 @@
 import numpy as np
-import re
+from tqdm import tqdm
 
 from matplotlib import pyplot
 from queue import PriorityQueue, Queue
@@ -74,28 +74,37 @@ graph[np.where(karte == B_WALL)] = 0
 count = 0
 
 cuts = []
+shortcuts = []
+cutlen = 20
+for x in range(-cutlen, cutlen+1):
+    for y in range(-cutlen, cutlen+1):
+        if abs(x) + abs(y) <= cutlen:
+            shortcuts.append((x,y))
 
-for nx, ny in np.ndindex((karte.shape[0]-2, karte.shape[1]-2)):
-    x = nx - 1
-    y = ny - 1
-    if karte[x,y] == B_WALL:
-        if karte[x-1, y] == B_EMPTY and karte[x+1, y] == B_EMPTY:
-            c_l = int(graph[x-1, y])
-            c_r = int(graph[x+1, y])
-            shortcut = abs(c_l - c_r)
-            if shortcut >= 100:
-                count+=1
-                cuts.append((x,y, shortcut))
-        if karte[x, y-1] == B_EMPTY and karte[x, y+1] == B_EMPTY:
-            c_u = int(graph[x, y-1])
-            c_d = int(graph[x, y+1])
-            shortcut = abs(c_u - c_d)
-            if shortcut >= 100:
-                count+=1
-                cuts.append((x,y, shortcut))
+def inbounds(pos, shape):
+    return pos[0] >= 0 and pos[1] >= 0 and pos[0] < shape[0] and pos[1] < shape[1]
 
-print(count)
+for x, y in tqdm(np.ndindex((karte.shape[0], karte.shape[1])), total=karte.shape[0]*karte.shape[1]):
+    if karte[x,y] == B_EMPTY:
+        for cx, cy in shortcuts:
+            if not inbounds((x+cx, y+cy), karte.shape):
+                continue
+            if karte[x+cx, y+cy] == B_EMPTY:
+                cc = int(graph[x, y])
+                ct = int(graph[x + cx, y + cy])
+                shortcut = (ct - cc) - abs(cx) - abs(cy)
+                if shortcut >= 100:
+                    count+=1
+                    cuts.append(((x,y), (cx,cy), shortcut))
+
 pyplot.imshow(graph)
-x, y, shortcut = zip(*cuts)
-pyplot.plot(y, x, "r.")
+# x, y, shortcut = zip(*cuts)
+cuts = sorted(cuts, key=lambda c: c[2])
+cuts_dict = defaultdict(list)
+for cut in cuts:
+    cuts_dict[cut[2]].append((cut[0], cut[1]))
+for cv, ci in cuts_dict.items():
+    print(cv, len(ci))
+# pyplot.plot(y, x, "r.")
+print(f"Total cuts: {count}")
 pyplot.show()
