@@ -58,4 +58,21 @@ Flashbacks to 2020, but part 1 was pretty straight forward. Had to give up on Pa
 # Day 18
 This was easy, too easy... Even Part 2 was brute-forcable? I was able to reuse my reindeer Dijkstra for this, so this took not even 20 minutes. Good to have a day off I guess.
 
+# Day 19
+A quirky application for a DFS. Part 2 was too much for my code though. Giving up on this for now.
 
+# Day 20
+Went overkill with an A Star pathfinding, without realizing there was literally only a single path. The actual solution was pretty easy from there on. Part 2 was just a generalization.
+
+# Day 22
+This one took me a lot longer than I expected. I tried some numpy magic again, but ended up in debugging hell instead. If I had went for an iterative solution that would probably have been faster. It efficiently calculates all price calculations in parallel tho...
+
+# Day 23
+Part 1 I did myself, on Part 2 I just went to Wikipedia to learn about Cliques in Graphs. I implemented the Bron-Kerbosch Algorithm for finding all max cliques, and even though I did not understand the algorithm, it worked! Praise the compsci researchers from the 70s and their pseudocode.
+
+# Day 24
+Circuit design! I implemented this one on a backwards recursive principle to skip unnessecary computations and use a cache for calculations, which makes this one pretty fast. My solution for Part 2 just works on the example though, no idea what I'm doing wrong for the adder...
+
+# Day 25
+A simple task, very easy with numpy arrays. I just sum up the lock and key values as one huge array for every lock and threshold the values. Quick and easy solution.
+Now for the stars left over...

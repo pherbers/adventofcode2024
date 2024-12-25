@@ -55,22 +55,31 @@ price_changes = np.diff(prices, axis=0)
 
 possible_price_changes = np.meshgrid(np.arange(-9,10),np.arange(-9,10),np.arange(-9,10),np.arange(-9,10))
 
+buymask = np.zeros(prices.shape, dtype=np.int32)
+
+print("Checking possible iterations")
+indices = set()
+for i in tqdm(range(iterations - 4)):
+    p = price_changes[i:i+4,...]
+    for monke in range(prices.shape[1]):
+        indices.add(tuple(p[...,monke]))
+print(f"{len(indices)} possible price change keys")
+print("Acquiring bananas")
 
 bananas = []
-for x,y,z,w in tqdm(np.ndindex((19,19,19,19)), total=19*19*19*19):
-    p1 = possible_price_changes[0][x,y,z,w]
-    p2 = possible_price_changes[1][x,y,z,w]
-    p3 = possible_price_changes[2][x,y,z,w]
-    p4 = possible_price_changes[3][x,y,z,w]
-    p = np.array((p1,p2,p3,p4)).reshape(4,1)
-
-    total_price = 0
+for ip in tqdm(indices):
+    p = np.array(ip).reshape(-1,1)
+    sell_price = {}
     for i in range(iterations - 4):
         change_hit = np.all(p == price_changes[i:i+4,...], axis=0)
         if np.any(change_hit):
             price_slice = prices[i+4:i+5,...]
             first_price = price_slice[np.where(change_hit.reshape(1,-1))]
-            total_price += np.sum(first_price)
-    bananas.append(total_price)
+            for sp in np.argwhere(change_hit).flat:
+                if int(sp) not in sell_price:
+                    sell_price[sp] = price_slice[..., int(sp)][0]
+    total_price = sum(sell_price.values())
+    bananas.append((total_price, p))
     
-print(f"Banana hoard: {max(bananas)}")
+best_bananas, winning_price = max(bananas, key=lambda x: x[0])
+print(f"Banana hoard: {best_bananas} at {tuple(winning_price)}")
